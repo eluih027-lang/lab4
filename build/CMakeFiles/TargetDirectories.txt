@@ -1,0 +1,3 @@
+/Users/lulu/Desktop/LastLabV8/build/CMakeFiles/lab4.dir
+/Users/lulu/Desktop/LastLabV8/build/CMakeFiles/edit_cache.dir
+/Users/lulu/Desktop/LastLabV8/build/CMakeFiles/rebuild_cache.dir
