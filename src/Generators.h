@@ -48,7 +48,7 @@ public:
     }
 
     Cardinal GetLength() const override {
-        return Cardinal::Finite(static_cast<size_t>(items.GetLength()));
+        return Cardinal::Finite(items.GetLength());
     }
 };
 
@@ -60,7 +60,7 @@ private:
 
 public:
     explicit SequenceGenerator(Sequence<T>* sequence) : items(), position(0) {
-        if (sequence == 0) {
+        if (sequence == nullptr) {
             return;
         }
         for (int i = 0; i < sequence->GetLength(); ++i) {
@@ -82,7 +82,7 @@ public:
     }
 
     Cardinal GetLength() const override {
-        return Cardinal::Finite(static_cast<size_t>(items.GetLength()));
+        return Cardinal::Finite(items.GetLength());
     }
 };
 
@@ -114,7 +114,7 @@ public:
 class StringCharGenerator : public Generator<char> {
 private:
     std::string data;
-    size_t position;
+    int position;
 
 public:
     explicit StringCharGenerator(const std::string& source)
@@ -131,18 +131,18 @@ public:
     }
 
     bool HasNext() const override {
-        return position < data.size();
+        return position < static_cast<int>(data.size());
     }
 
     Cardinal GetLength() const override {
-        return Cardinal::Finite(data.size());
+        return Cardinal::Finite(static_cast<int>(data.size()));
     }
 };
 
 class CyclicPatternCharGenerator : public Generator<char> {
 private:
     std::string pattern;
-    size_t position;
+    int position;
 
 public:
     explicit CyclicPatternCharGenerator(const std::string& sourcePattern)
@@ -153,7 +153,7 @@ public:
     }
 
     char GetNext() override {
-        char result = pattern[position % pattern.size()];
+        char result = pattern[position % static_cast<int>(pattern.size())];
         ++position;
         return result;
     }

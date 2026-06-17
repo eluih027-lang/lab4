@@ -66,7 +66,7 @@ private:
 
 
     void MaterializeTo(size_t index) const {
-        while (static_cast<size_t>(state->materializedItems.GetLength()) <= index) {
+        while (state->materializedItems.GetLength() <= index) {
             if (state->exhausted || !state->generator->HasNext()) {
                 state->exhausted = true;
                 if (state->length.IsInfinite()) {
@@ -124,11 +124,12 @@ public:
     }
 
     T Get(int index) const {
-        if (index < 0) {
-            throw std::out_of_range("LazySequence index must be non-negative");
-        }
-        MaterializeTo(static_cast<size_t>(index));
-        return state->materializedItems.Get(index);
+    if (index < 0) throw std::out_of_range("Index out of range: negative index");
+    MaterializeTo(index);
+    if (index >= state->materializedItems.GetLength()) {
+        throw std::out_of_range("Index out of range");
+    }
+    return state->materializedItems.Get(index);
     }
 
     LazySequence<T>* GetSubsequence(int startIndex, int endIndex) const {

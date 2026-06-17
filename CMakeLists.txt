@@ -1,14 +1,25 @@
 cmake_minimum_required(VERSION 3.14)
-
-project(Lab4LazyStreamsSubstringFrequency LANGUAGES CXX)
+project(LazySequenceLab)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
-add_executable(lab4
-    src/main.cpp
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+)
+FetchContent_MakeAvailable(googletest)
+
+add_library(lab_lib STATIC
     src/SubstringFrequencyCounter.cpp
 )
 
-target_include_directories(lab4 PRIVATE src)
+target_include_directories(lab_lib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
+enable_testing()
+add_executable(run_tests
+    src/test_main.cpp
+)
+target_link_libraries(run_tests PRIVATE lab_lib GTest::gtest_main)
+include(GoogleTest)
+gtest_discover_tests(run_tests)
